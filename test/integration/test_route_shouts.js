@@ -13,6 +13,7 @@ describe('Shoutbox API', function(){
     it('creating new shout is successfully', function(done){
         supertest(app)
             .post('/shouts')
+            .send({ author: 'Micha', msg: 'Sample shout text.' })
             .expect(201)
             .end(done);
     });

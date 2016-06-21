@@ -1,6 +1,10 @@
 # NPM dependencies
 /node_modules/
 
+# DB directory
+/data/*
+!/data/.gitkeep
+
 # WebStorm settings
 /.idea/
 
