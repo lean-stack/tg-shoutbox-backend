@@ -1,3 +1,5 @@
 
-let msg = 'Hello from my ES6 server';
-console.log(msg);
+// Server startup file
+
+// NPM dependencies
+import socketio from 'socket.io';
