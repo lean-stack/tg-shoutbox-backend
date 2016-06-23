@@ -1,12 +1,14 @@
 
-export default (io, console) => {
+export default (io, socket, console) => {
 
-    io.sockets.on('shouts', (socket) => {
-        console('Shouts requested');
+    socket.on('req shouts', (socket) => {
+        console('Shouts requested.');
+        socket.emit('snd shouts', []);
     });
 
-    io.sockets.on('shout', (socket) => {
-        console('Shout pushed');
+    socket.on('snd shout', (socket) => {
+        console('Shout received.');
+        io.emit('rcv shout')
     });
 
 };
