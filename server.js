@@ -17,6 +17,9 @@ let app = express();
 let server = http.createServer(app);
 let io = socketio(server);
 
+// Configure the db
+import './app/models/db';
+
 // Determine the port
 let port = process.env.PORT || 8001;
 

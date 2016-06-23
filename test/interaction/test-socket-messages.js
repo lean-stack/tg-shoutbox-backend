@@ -1,4 +1,10 @@
 
+// Assertion style
+var expect = require('chai').expect;
+
+// Set test environment
+process.env.NODE_ENV = 'test';
+
 // Hook babel for the ES6 server
 require('babel-register');
 var server = require('../../server').default;
@@ -10,7 +16,9 @@ var options = {
     'force new connection': true
 };
 
-describe('Client accessing Sockets API', function () {
+var Shout = require('../../app/models/shout').default;
+
+describe('Client interaction with Sockets API', function () {
 
     it('should be able to connect', function (done) {
 
@@ -32,7 +40,7 @@ describe('Client accessing Sockets API', function () {
                 done();
             });
 
-            client.emit("req shouts", "Hello World");
+            client.emit("req shouts");
         });
     });
 
@@ -46,7 +54,7 @@ describe('Client accessing Sockets API', function () {
                 done();
             });
 
-            client.emit("snd shout", {});
+            client.emit("snd shout", { author: 'Micha', msg: 'First shout.'});
         });
     });
 
@@ -64,9 +72,53 @@ describe('Client accessing Sockets API', function () {
                     second.disconnect();
                     done();
                 });
-                client.emit("snd shout", {});
+                client.emit("snd shout", { author: 'Micha', msg: 'Second shout.'});
             });
         });
     });
 
+});
+
+describe('Shouts interacations', function () {
+
+    before('clear shouts', function(done) {
+        Shout.remove({}, function (err) {
+            done();
+        })
+    });
+
+    it('Shout list should initially be an empty array', function (done) {
+
+        var client = io.connect('http://localhost:' + server.address().port, options);
+
+        client.once('connect', function () {
+            client.once("snd shouts", function (data) {
+                expect(data).to.have.property('shouts');
+                expect(data.shouts).to.be.instanceof(Array);
+                expect(data.shouts.length).to.equal(0);
+                client.disconnect();
+                done();
+            });
+
+            client.emit("req shouts");
+        });
+    });
+
+    it('Shout list should contain one shout if first one is pushed', function (done) {
+
+        var client = io.connect('http://localhost:' + server.address().port, options);
+
+        client.once('connect', function () {
+            client.once("snd shouts", function (data) {
+                expect(data).to.have.property('shouts');
+                expect(data.shouts).to.be.instanceof(Array);
+                expect(data.shouts.length).to.equal(1);
+                client.disconnect();
+                done();
+            });
+
+            client.emit("snd shout", { author: 'Micha', msg: 'First shout.'});
+            client.emit("req shouts");
+        });
+    });
 });
