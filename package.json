@@ -4,7 +4,7 @@
   "description": "Shoutbox backend",
   "scripts": {
     "start": "node ./bin/server",
-    "test": "cross-env NODE_ENV=test mocha --recursive"
+    "test": "mocha --recursive"
   },
   "repository": {
     "type": "git",

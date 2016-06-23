@@ -26,3 +26,9 @@ server.on('listening', () => {
     var addr = server.address();
     console('Listening on port ' + addr.port);
 });
+
+// Hook the socket messages
+import sockets from './sockets/base';
+sockets(io,console);
+
+export default server;

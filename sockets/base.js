@@ -14,6 +14,4 @@ export default (io, console) => {
             console('Client shoutbox disconnected');
         });
     });
-
-
 };
