@@ -1,7 +1,7 @@
 
 var expect = require('chai').expect;
 
-var Shout = require('../../../models/shout');
+var Shout = require('../../../app/models/shout').default;
 
 describe('a shout', function() {
     it('should be invalid if author is empty', function(done) {

@@ -7,4 +7,6 @@ var shoutSchema = new mongoose.Schema({
     date: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Shout', shoutSchema);
+let Shout = mongoose.model('Shout', shoutSchema);
+
+export default Shout;
