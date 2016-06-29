@@ -17,6 +17,9 @@ let app = express();
 let server = http.createServer(app);
 let io = socketio(server);
 
+// Configure the app
+app.use('/', express.static(__dirname + '/public'));
+
 // Configure the db
 import './app/models/db';
 
