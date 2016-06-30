@@ -4,7 +4,8 @@
   "description": "Shoutbox backend",
   "scripts": {
     "start": "node server",
-    "test": "mocha --recursive"
+    "test": "mocha --recursive",
+    "clear:shouts": "node bin/clear-shouts"
   },
   "repository": {
     "type": "git",

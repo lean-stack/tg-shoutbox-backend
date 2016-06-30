@@ -1,5 +1,4 @@
 
-// Server startup file
 require('dotenv').config();
 
 // NPM dependencies
