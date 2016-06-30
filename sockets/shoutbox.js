@@ -3,7 +3,7 @@ const chatId = process.env.CHAT_ID;
 
 const Shout = require('../app/models/shout');
 
-module.exports = (io, socket, console, tg) => {
+module.exports = (io, socket, tg, console) => {
 
     socket.on('req shouts', (data) => {
         data = data || { limit: 10 };
