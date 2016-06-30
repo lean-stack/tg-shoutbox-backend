@@ -1,5 +1,6 @@
 
 // Server startup file
+require('dotenv').config();
 
 // NPM dependencies
 const socketio = require('socket.io');
@@ -16,7 +17,7 @@ const http = require('http');
 let app = express();
 let server = http.createServer(app);
 let io = socketio(server);
-
+-123377754
 // Configure the app
 app.use('/', express.static(__dirname + '/public'));
 
@@ -33,11 +34,12 @@ server.on('listening', () => {
     console('Listening on port ' + addr.port);
 });
 
+// Get the Telegram Bot
+const bot = require('./app/telegram');
+
 // Hook the socket messages
 const sockets = require('./sockets/base');
-sockets(io,console);
+sockets(io,console, bot.tg);
 
-// Integrate the Telegram Bot
-require('./app/telegram');
 
 module.exports = server;

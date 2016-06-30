@@ -1,3 +1,6 @@
+# Sensible data
+/.env
+
 # NPM dependencies
 /node_modules/
 

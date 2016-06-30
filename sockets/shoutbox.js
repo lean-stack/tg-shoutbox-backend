@@ -1,7 +1,9 @@
 
+const chatId = process.env.CHAT_ID;
+
 const Shout = require('../app/models/shout');
 
-module.exports = (io, socket, console) => {
+module.exports = (io, socket, console, tg) => {
 
     socket.on('req shouts', (data) => {
         data = data || { limit: 10 };
@@ -25,7 +27,8 @@ module.exports = (io, socket, console) => {
                 socket.emit('bad shout', err);
                 return;
             }
-            io.emit('rcv shout', shout)
+            io.emit('rcv shout', shout);
+            tg.api.sendMessage(chatId, '[' + shout.author + ']: ' + shout.msg);
         });
     });
 };
