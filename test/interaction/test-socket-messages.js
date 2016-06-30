@@ -121,4 +121,47 @@ describe('Shouts interacations', function () {
             client.emit("req shouts");
         });
     });
+
+    it('Shout limit the count of requested shouts if limit is set', function (done) {
+
+        var client = io.connect('http://localhost:' + server.address().port, options);
+
+        client.once('connect', function () {
+            client.once("snd shouts", function (data) {
+                expect(data).to.have.property('shouts');
+                expect(data.shouts).to.be.instanceof(Array);
+                expect(data.shouts.length).to.equal(1);
+                client.disconnect();
+                done();
+            });
+
+            client.emit("snd shout", { author: 'Micha', msg: 'Second shout.'});
+            client.emit("req shouts", { limit: 1 });
+        });
+    });
+
+    it('Shout receive ten shouts if no limit is set', function (done) {
+
+        var client = io.connect('http://localhost:' + server.address().port, options);
+
+        client.once('connect', function () {
+            client.once("snd shouts", function (data) {
+                expect(data).to.have.property('shouts');
+                expect(data.shouts).to.be.instanceof(Array);
+                expect(data.shouts.length).to.equal(10);
+                client.disconnect();
+                done();
+            });
+
+            for( var i = 0; i < 10; i++ ) {
+                client.emit("snd shout", { author: 'Micha', msg: 'Shout Number ' + (i+3) });
+            }
+
+            setTimeout(() => {
+                client.emit("req shouts");
+            }, 1);
+
+        });
+    });
+
 });

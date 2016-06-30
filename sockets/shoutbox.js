@@ -3,9 +3,15 @@ import Shout from '../app/models/shout';
 
 export default (io, socket, console) => {
 
-    socket.on('req shouts', () => {
+    socket.on('req shouts', (data) => {
+        data = data || { limit: 10 };
+        var limit = data.limit || 10;
         console('Shouts requested.');
-        Shout.find({ }, (err, shouts) => {
+        Shout
+            .find({ })
+            .sort({ date: -1 })
+            .limit( limit )
+            .exec( (err, shouts) => {
             socket.emit('snd shouts', { shouts: shouts });
         });
 
