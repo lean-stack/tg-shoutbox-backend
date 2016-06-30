@@ -1,27 +1,39 @@
 
 'use strict';
 
+const Shout = require('../app/models/shout');
+
 // Get the Bot Token
 const token = process.env.BOT_TOKEN;
 const chatId = process.env.CHAT_ID;
 
 const Telegram = require('telegram-node-bot');
 const TelegramBaseController = Telegram.TelegramBaseController;
-const tg = new Telegram.Telegram(token);
 
-let io = undefined;
+module.exports = (io) => {
 
-class ChatController extends TelegramBaseController {
+    const tg = new Telegram.Telegram(token);
 
-    handle(scope) {
-        if( scope.chatId != chatId ) {
-            scope.sendMessage('Sorry, private bot. No use for you.');
+    class ChatController extends TelegramBaseController {
+
+        handle($) {
+            if( $.chatId != chatId ) {
+                $.sendMessage('Sorry, private bot. No use for you.');
+            }
+            var shout = new Shout({ author: $.message.from.firstName, msg: $.message.text, date: new Date($.message.date * 1000)});
+            shout.save((err,shout) => {
+                if (err) {
+                    $.sendMessage('bad shout');
+                    return;
+                }
+                io.emit('rcv shout', shout);
+                console.log(shout);
+            });
         }
-        console.log(scope.chatId);
     }
-}
 
-tg.router
-    .any(new ChatController());
+    tg.router
+        .any(new ChatController());
 
-module.exports = { tg: tg, io: io };
+    return tg;
+};

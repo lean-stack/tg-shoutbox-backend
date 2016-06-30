@@ -17,7 +17,7 @@ const http = require('http');
 let app = express();
 let server = http.createServer(app);
 let io = socketio(server);
--123377754
+
 // Configure the app
 app.use('/', express.static(__dirname + '/public'));
 
@@ -34,12 +34,12 @@ server.on('listening', () => {
     console('Listening on port ' + addr.port);
 });
 
-// Get the Telegram Bot
-const bot = require('./app/telegram');
+// Hook the Telegram Bot into the sockets app
+const bot = require('./app/telegram')(io);
 
-// Hook the socket messages
+// Hook the socket messages into the bot
 const sockets = require('./sockets/base');
-sockets(io,console, bot.tg);
+sockets(io,console, bot);
 
 
 module.exports = server;
