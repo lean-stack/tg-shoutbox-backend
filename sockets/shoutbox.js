@@ -1,7 +1,7 @@
 
-import Shout from '../app/models/shout';
+const Shout = require('../app/models/shout');
 
-export default (io, socket, console) => {
+module.exports = (io, socket, console) => {
 
     socket.on('req shouts', (data) => {
         data = data || { limit: 10 };

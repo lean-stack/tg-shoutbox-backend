@@ -9,4 +9,4 @@ var shoutSchema = new mongoose.Schema({
 
 let Shout = mongoose.model('Shout', shoutSchema);
 
-export default Shout;
+module.exports = Shout;

@@ -2,15 +2,15 @@
 // Server startup file
 
 // NPM dependencies
-import socketio from 'socket.io';
-import express from 'express';
-import debug from 'debug';
+const socketio = require('socket.io');
+const express  = require('express');
+const debug    = require('debug');
 
 // Console debug logger
 let console = debug('shoutbox:backend');
 
 // Modules
-import http from 'http';
+const http = require('http');
 
 // Creating the Express app, the Node server and integrate Socket.io
 let app = express();
@@ -21,7 +21,7 @@ let io = socketio(server);
 app.use('/', express.static(__dirname + '/public'));
 
 // Configure the db
-import './app/models/db';
+require('./app/models/db');
 
 // Determine the port
 let port = process.env.PORT || 8001;
@@ -34,7 +34,10 @@ server.on('listening', () => {
 });
 
 // Hook the socket messages
-import sockets from './sockets/base';
+const sockets = require('./sockets/base');
 sockets(io,console);
 
-export default server;
+// Integrate the Telegram Bot
+require('./app/telegram');
+
+module.exports = server;

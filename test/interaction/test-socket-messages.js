@@ -5,9 +5,7 @@ var expect = require('chai').expect;
 // Set test environment
 process.env.NODE_ENV = 'test';
 
-// Hook babel for the ES6 server
-require('babel-register');
-var server = require('../../server').default;
+var server = require('../../server');
 
 // Socket.io client
 var io = require('socket.io-client');
@@ -16,7 +14,7 @@ var options = {
     'force new connection': true
 };
 
-var Shout = require('../../app/models/shout').default;
+var Shout = require('../../app/models/shout');
 
 describe('Client interaction with Sockets API', function () {
 

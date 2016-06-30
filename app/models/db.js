@@ -5,4 +5,4 @@ let dbPostfix = env === 'production' ? '' : '-' + env;
 let mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/tg-shoutbox' + dbPostfix);
 
-export default mongoose;
+module.exports = mongoose;

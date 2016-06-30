@@ -1,7 +1,7 @@
 
-import shoutbox from './shoutbox';
+const shoutbox = require('./shoutbox');
 
-export default (io, console) => {
+module.exports = (io, console) => {
 
     io.sockets.on('connection', (socket) => {
 
