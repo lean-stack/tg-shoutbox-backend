@@ -19,6 +19,7 @@ module.exports = (io) => {
         handle($) {
             if( $.chatId != chatId ) {
                 $.sendMessage('Sorry, private bot. No use for you.');
+                return;
             }
             var shout = new Shout({ author: $.message.from.firstName, msg: $.message.text, date: new Date($.message.date * 1000)});
             shout.save((err,shout) => {
