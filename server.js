@@ -2,9 +2,10 @@
 require('dotenv').config();
 
 // NPM dependencies
-const socketio = require('socket.io');
-const express  = require('express');
-const debug    = require('debug');
+const socketio    = require('socket.io');
+const socketioJwt = require('socketio-jwt');
+const express     = require('express');
+const debug       = require('debug');
 
 // Console debug logger
 let console = debug('shoutbox:backend');
@@ -16,6 +17,12 @@ const http = require('http');
 let app = express();
 let server = http.createServer(app);
 let io = socketio(server);
+
+// Securing Websockets via JWT
+io.use(socketioJwt.authorize({
+    secret: process.env.JWT_SECRET,
+    handshake: true
+}));
 
 // Configure the app
 app.use('/', express.static(__dirname + '/public'));
